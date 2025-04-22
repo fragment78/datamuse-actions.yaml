@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Datamuse API
+  description: API pour trouver des rimes, synonymes, associations de mots, similarités phonétiques ou orthographiques.
+  version: 1.0.0
+servers:
+  - url: https://api.datamuse.com
+paths:
+  /words:
+    get:
+      operationId: getWords
+      summary: Recherche de mots selon des critères linguistiques.
+      description: Permet de récupérer des mots en fonction de différents critères comme les rimes, synonymes, sons similaires, associations d'idées, etc.
+      parameters:
+        - name: rel_rhy
+          in: query
+          description: Mots qui riment avec ce mot.
+          required: false
+          schema:
+            type: string
+        - name: rel_syn
+          in: query
+          description: Synonymes du mot donné.
+          required: false
+          schema:
+            type: string
+        - name: rel_trg
+          in: query
+          description: Mots associés ou utilisés dans des contextes similaires.
+          required: false
+          schema:
+            type: string
+        - name: sl
+          in: query
+          description: Mots qui sonnent comme le mot donné.
+          required: false
+          schema:
+            type: string
+        - name: sp
+          in: query
+          description: Mot ou modèle orthographique avec * comme joker.
+          required: false
+          schema:
+            type: string
+        - name: ml
+          in: query
+          description: Mots ayant une signification similaire (meaning like).
+          required: false
+          schema:
+            type: string
+        - name: max
+          in: query
+          description: Nombre maximal de résultats retournés.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Liste de mots répondant aux critères.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    word:
+                      type: string
+                    score:
+                      type: integer
+                    numSyllables:
+                      type: integer
